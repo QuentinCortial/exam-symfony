@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-4 mb-4">Annuaire d'entreprise</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Secteur</th>
+                <th>Contrat</th>
+                <th>Date fin de contrat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.secteur }}</td>
+                <td>{{ user.contrat }}</td>
+                <td>{{ user.dateDeSortie ? user.dateDeSortie|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-primary">Detail</a>
+                    {% if personneConnect %}
+                        {% if "ROLE_RH" in personneConnect.roles %}
+                            <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">edit</a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% if personneConnect %}
+    {% if "ROLE_RH" in personneConnect.roles %}
+        <a href="{{ path('user_new') }}" class="btn btn-primary">Create new</a>
+    {% endif %}
+{% endif %}
+{% endblock %}

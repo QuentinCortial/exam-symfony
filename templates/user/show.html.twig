@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1 class="mt-4 mb-4 text-center">User</h1>
+
+    <table class="table card" style="width:30%;margin: 10px auto 10px auto; background-color: lightblue">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ user.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Secteur</th>
+                <td>{{ user.secteur }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td><img src={{asset ("images/"~ user.photo) }} alt="" style="width:100px; height:100px"></td>
+            </tr>
+            <tr>
+                <th>Contrat</th>
+                <td>{{ user.contrat }}</td>
+            </tr>
+            <tr>
+                <th>Date fin de contrat</th>
+                <td>{{ user.dateDeSortie ? user.dateDeSortie|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+<div class="text-center">
+    <a href="{{ path('user_index') }}" class="btn btn-primary">Retour</a></br>
+
+    {% if personneConnect %}
+        {% if "ROLE_RH" in personneConnect.roles %}
+            <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-warning mt-2 mb-2">edit</a>
+            {{ include('user/_delete_form.html.twig') }}
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}
